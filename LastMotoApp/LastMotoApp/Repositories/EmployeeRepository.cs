@@ -2,7 +2,7 @@
 
 namespace LastMotoApp.Repositories;
 
-public class EmployeeRepository
+public class EmployeeRepository : EntityBase
 {
     private List<Employee> _employees;
 

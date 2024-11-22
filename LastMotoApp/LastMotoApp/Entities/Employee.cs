@@ -1,8 +1,7 @@
 ﻿namespace LastMotoApp.Entities;
 
-public class Employee
+public class Employee : EntityBase
 {
-    public int Id { get; set; }
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
 
