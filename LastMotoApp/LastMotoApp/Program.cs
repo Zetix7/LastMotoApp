@@ -2,21 +2,31 @@
 using LastMotoApp.Entities;
 using LastMotoApp.Repositories;
 
-//var employeeRepository = new GenericRepository<Employee>();
-//employeeRepository.Add(new Employee { FirstName = "Elizabeth", LastName = "Olsen" });
-//employeeRepository.Add(new Employee { FirstName = "Scarlett", LastName = "Johansson" });
-//employeeRepository.Add(new Employee { FirstName = "Ana", LastName = "de Armas" });
-//employeeRepository.Save();
+var employeeRepository = new SqlRepository<Employee>(new MotoAppDbContext());
 
-var sqlRepository = new SqlRepository<Employee>(new MotoAppDbContext());
-sqlRepository.Add(new Employee { FirstName = "Elizabeth", LastName = "Olsen" });
-sqlRepository.Add(new Employee { FirstName = "Scarlett", LastName = "Johansson" });
-sqlRepository.Add(new Employee { FirstName = "Ana", LastName = "de Armas" });
-sqlRepository.Save();
-var e1 = sqlRepository.GetById(1);
-var e2 = sqlRepository.GetById(2);
-var e3 = sqlRepository.GetById(3);
+AddEmployees(employeeRepository);
+AddSupervisors(employeeRepository);
+Display(employeeRepository);
 
-Console.WriteLine(e1);
-Console.WriteLine(e2);
-Console.WriteLine(e3);
+static void AddEmployees(IRepository<Employee> repository){
+    repository.Add(new Employee { FirstName = "Elizabeth", LastName = "Olsen" });
+    repository.Add(new Employee { FirstName = "Scarlett", LastName = "Johansson" });
+    repository.Add(new Employee { FirstName = "Ana", LastName = "de Armas" });
+    repository.Save();
+}
+
+static void AddSupervisors(IWriteRepository<Supervisor> repository)
+{
+    repository.Add(new Supervisor { FirstName = "Gregory", LastName = "White" });
+    repository.Add(new Supervisor { FirstName = "Chris", LastName = "Evans" });
+    repository.Add(new Supervisor { FirstName = "Gal", LastName = "Gadot" });
+    repository.Save();
+}
+
+static void Display(IReadRepository<IEntity> repository)
+{
+    foreach (var employee in repository.GetAll())
+    {
+        Console.WriteLine(employee);
+    }
+}
