@@ -8,7 +8,7 @@ using LastMotoApp.Repositories;
 //employeeRepository.Add(new Employee { FirstName = "Ana", LastName = "de Armas" });
 //employeeRepository.Save();
 
-var sqlRepository = new SqlRepository(new MotoAppDbContext());
+var sqlRepository = new SqlRepository<Employee>(new MotoAppDbContext());
 sqlRepository.Add(new Employee { FirstName = "Elizabeth", LastName = "Olsen" });
 sqlRepository.Add(new Employee { FirstName = "Scarlett", LastName = "Johansson" });
 sqlRepository.Add(new Employee { FirstName = "Ana", LastName = "de Armas" });

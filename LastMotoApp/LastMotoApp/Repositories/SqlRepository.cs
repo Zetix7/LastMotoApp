@@ -3,28 +3,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LastMotoApp.Repositories;
 
-public class SqlRepository
+public class SqlRepository<T> : IRepository<T> where T : class, IEntity
 {
-    private readonly DbSet<Employee> _dbSet;
+    private readonly DbSet<T> _dbSet;
     private readonly DbContext _dbContext;
 
     public SqlRepository(DbContext dbContext)
     {
         _dbContext = dbContext;
-        _dbSet = _dbContext.Set<Employee>();
+        _dbSet = _dbContext.Set<T>();
     }
 
-    public Employee GetById(int id)
+    public IEnumerable<T> GetAll()
+    {
+        return _dbSet.ToList();
+    }
+
+    public T GetById(int id)
     {
         return _dbSet.Single(item => item.Id == id);
     }
 
-    public void Add(Employee item)
+    public void Add(T item)
     {
         _dbSet.Add(item);
     }
 
-    public void Remove(Employee item)
+    public void Remove(T item)
     {
         _dbSet.Remove(item);
     }

@@ -2,13 +2,18 @@
 
 namespace LastMotoApp.Repositories;
 
-public class GenericRepository<T> where T : class, IEntity
+public class ListRepository<T> : IRepository<T> where T : class, IEntity
 {
     protected readonly List<T> _items;
 
-    public GenericRepository()
+    public ListRepository()
     {
         _items = [];
+    }
+
+    public IEnumerable<T> GetAll()
+    {
+        return _items.ToList();
     }
 
     public T GetById(int id)
