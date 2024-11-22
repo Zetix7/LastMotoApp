@@ -8,7 +8,7 @@ public class GenericRepository<T> where T : class, IEntity
 
     public GenericRepository()
     {
-        _items = new List<T>();
+        _items = [];
     }
 
     public T GetById(int id)
@@ -20,6 +20,11 @@ public class GenericRepository<T> where T : class, IEntity
     {
         items.Id = _items.Count + 1;
         _items.Add(items);
+    }
+
+    public void Remove(T item)
+    {
+        _items.Remove(item);
     }
 
     public void Save()
