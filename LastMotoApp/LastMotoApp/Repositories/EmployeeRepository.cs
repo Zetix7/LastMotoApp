@@ -4,7 +4,7 @@ namespace LastMotoApp.Repositories;
 
 public class EmployeeRepository : EntityBase
 {
-    private List<Employee> _employees;
+    private readonly List<Employee> _employees;
 
     public EmployeeRepository()
     {

@@ -4,7 +4,7 @@ namespace LastMotoApp.Repositories;
 
 public class GenericRepository<T> where T : class, IEntity
 {
-    private List<T> _items;
+    protected readonly List<T> _items;
 
     public GenericRepository()
     {
