@@ -1,32 +1,29 @@
 ﻿using LastMotoApp.Data;
 using LastMotoApp.Entities;
 using LastMotoApp.Repositories;
+using LastMotoApp.Repositories.Extensions;
 
 var employeeRepository = new SqlRepository<Employee>(new MotoAppDbContext());
 
 AddEmployees(employeeRepository);
-AddSupervisors(employeeRepository);
 Display(employeeRepository);
 
-static void AddEmployees(IRepository<Employee> repository){
-    repository.Add(new Employee { FirstName = "Elizabeth", LastName = "Olsen" });
-    repository.Add(new Employee { FirstName = "Scarlett", LastName = "Johansson" });
-    repository.Add(new Employee { FirstName = "Ana", LastName = "de Armas" });
-    repository.Save();
-}
-
-static void AddSupervisors(IWriteRepository<Supervisor> repository)
+static void AddEmployees(IRepository<Employee> repository)
 {
-    repository.Add(new Supervisor { FirstName = "Gregory", LastName = "White" });
-    repository.Add(new Supervisor { FirstName = "Chris", LastName = "Evans" });
-    repository.Add(new Supervisor { FirstName = "Gal", LastName = "Gadot" });
-    repository.Save();
+    var employees = new[]
+    {
+        new Employee { FirstName = "Elizabeth", LastName = "Olsen" },
+        new Employee { FirstName = "Scarlett", LastName = "Johansson" },
+        new Employee { FirstName = "Ana", LastName = "de Armas" }
+    };
+
+    repository.AddBatch(employees);
 }
 
 static void Display(IReadRepository<IEntity> repository)
 {
-    foreach (var employee in repository.GetAll())
+    foreach (var item in repository.GetAll())
     {
-        Console.WriteLine(employee);
+        Console.WriteLine(item);
     }
 }
