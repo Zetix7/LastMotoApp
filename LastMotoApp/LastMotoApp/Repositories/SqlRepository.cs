@@ -3,15 +3,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LastMotoApp.Repositories;
 
-public delegate void ItemAdded(object item);
+public delegate void ItemAdded<T>(T item);
 
 public class SqlRepository<T> : IRepository<T> where T : class, IEntity
 {
     private readonly DbSet<T> _dbSet;
     private readonly DbContext _dbContext;
-    private readonly ItemAdded? _callbackItemAdded;
+    private readonly ItemAdded<T>? _callbackItemAdded;
 
-    public SqlRepository(DbContext dbContext, ItemAdded callbackItemAdded = null!)
+    public SqlRepository(DbContext dbContext, ItemAdded<T>? callbackItemAdded = null!)
     {
         _dbContext = dbContext;
         _dbSet = _dbContext.Set<T>();

@@ -4,16 +4,15 @@ using LastMotoApp.Entities.Extensions;
 using LastMotoApp.Repositories;
 using LastMotoApp.Repositories.Extensions;
 
-//var ItemAdded = new ItemAdded(EmployeeAdded);
+//var itemAdded = new ItemAdded<Employee>(EmployeeAdded);
 var employeeRepository = new SqlRepository<Employee>(new MotoAppDbContext(), EmployeeAdded);
 
 AddEmployees(employeeRepository);
 Display(employeeRepository);
 
-static void EmployeeAdded(object item)
+static void EmployeeAdded(Employee item)
 {
-    var employee = (Employee)item;
-    Console.WriteLine($"Callback executed: {employee.FirstName} {employee.LastName} added");
+    Console.WriteLine($"Callback executed: {item.FirstName} {item.LastName} added");
 }
 
 static void AddEmployees(IRepository<Employee> repository)
