@@ -19,7 +19,7 @@ public class SqlRepository<T> : IRepository<T> where T : class, IEntity
         return _dbSet.ToList();
     }
 
-    public T GetById(int id)
+    public T? GetById(int id)
     {
         return _dbSet.Single(item => item.Id == id);
     }

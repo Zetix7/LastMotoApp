@@ -16,7 +16,7 @@ public class ListRepository<T> : IRepository<T> where T : class, IEntity
         return _items.ToList();
     }
 
-    public T GetById(int id)
+    public T? GetById(int id)
     {
         return _items.Single(item => item.Id == id);
     }

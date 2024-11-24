@@ -1,5 +1,6 @@
 ﻿using LastMotoApp.Data;
 using LastMotoApp.Entities;
+using LastMotoApp.Entities.Extensions;
 using LastMotoApp.Repositories;
 using LastMotoApp.Repositories.Extensions;
 
@@ -19,6 +20,11 @@ static void AddEmployees(IRepository<Employee> repository)
 
     repository.AddBatch(employees);
 }
+
+var e = new Employee { FirstName = "Gal", LastName = "Gadot" };
+var eCopy = e.Copy();
+
+Console.WriteLine($"{e} - {eCopy}");
 
 static void Display(IReadRepository<IEntity> repository)
 {

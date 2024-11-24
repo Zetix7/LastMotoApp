@@ -16,7 +16,7 @@ public class EmployeeRepository : EntityBase, IRepository<Employee>
         return _employees;
     }
 
-    public Employee GetById(int id)
+    public Employee? GetById(int id)
     {
         return _employees.Single(item => item.Id == id);
     }
