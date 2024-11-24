@@ -1,10 +1,8 @@
 ﻿using LastMotoApp.Data;
 using LastMotoApp.Entities;
-using LastMotoApp.Entities.Extensions;
 using LastMotoApp.Repositories;
 using LastMotoApp.Repositories.Extensions;
 
-//var itemAdded = new ItemAdded<Employee>(EmployeeAdded);
 var employeeRepository = new SqlRepository<Employee>(new MotoAppDbContext(), EmployeeAdded);
 
 AddEmployees(employeeRepository);
