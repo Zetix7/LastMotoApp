@@ -2,9 +2,9 @@
 using LastMotoApp.Repositories;
 using System.Text.Json;
 
-namespace LastMotoApp.Services;
+namespace LastMotoApp.Components;
 
-public class FileCreator<T> where T : class, IEntity
+public class FileCreator<T> : IFileCreator<T> where T : class, IEntity
 {
     private readonly string _auditFile = "audit.txt";
     private readonly string _filePath = ".txt";
