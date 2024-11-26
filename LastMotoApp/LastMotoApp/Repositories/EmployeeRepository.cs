@@ -11,6 +11,9 @@ public class EmployeeRepository : EntityBase, IRepository<Employee>
         _employees = [];
     }
 
+    public event EventHandler<Employee>? ItemAdded;
+    public event EventHandler<Employee>? ItemRemoved;
+    
     public IEnumerable<Employee> GetAll()
     {
         return _employees;
@@ -25,11 +28,13 @@ public class EmployeeRepository : EntityBase, IRepository<Employee>
     {
         employee.Id = _employees.Count + 1;
         _employees.Add(employee);
+        ItemAdded?.Invoke(this, employee);
     }
 
     public void Remove(Employee employee)
     {
         _employees.Remove(employee);
+        ItemRemoved?.Invoke(this, employee);
     }
 
     public void Save()
