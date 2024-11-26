@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 var services = new ServiceCollection();
 services.AddSingleton<IApp, App>();
+services.AddSingleton<IUserCommunication, UserCommunication>();
 services.AddSingleton<IRepository<Employee>, SqlRepository<Employee>>();
 services.AddSingleton<IRepository<BusinessPartner>, SqlRepository<BusinessPartner>>();
 services.AddDbContext<MotoAppDbContext>();
