@@ -2,6 +2,7 @@
 using LastMotoApp.Entities;
 using LastMotoApp.Repositories;
 using LastMotoApp.Services;
+using System.Xml.Linq;
 
 var employeeRepository = new SqlRepository<Employee>(new MotoAppDbContext());
 var businessPartnerRepository = new SqlRepository<BusinessPartner>(new MotoAppDbContext());
@@ -56,17 +57,14 @@ void BusinessPartnerMenu()
         switch (input)
         {
             case "1":
-                Console.WriteLine("-------------------------------------------------------------------");
                 AddBusinesPartnerMenu();
                 Console.WriteLine("-------------------------------------------------------------------");
                 break;
             case "2":
-                Console.WriteLine("-------------------------------------------------------------------");
-                RemoveMenu<BusinessPartner>();
+                RemoveMenu(businessPartnerRepository);
                 Console.WriteLine("-------------------------------------------------------------------");
                 break;
             case "3":
-                Console.WriteLine("-------------------------------------------------------------------");
                 DisplayBusinesPartnerList();
                 Console.WriteLine("-------------------------------------------------------------------");
                 break;
@@ -86,11 +84,19 @@ void AddBusinesPartnerMenu()
     var fileCreator = new FileCreator<BusinessPartner>();
     LoadBusinessPartnerListFromFile(businessPartnerRepository, fileCreator);
 
+    Console.WriteLine("-------------------------------------------------------------------");
     Console.WriteLine("\tAdding new business partner: ");
     Console.Write("\t\tEnter name: ");
-    var Name = Console.ReadLine()!.Trim();
+    var name = Console.ReadLine()!.Trim();
 
-    var businessPartner = new BusinessPartner { Name = Name };
+    if (string.IsNullOrEmpty(name))
+    {
+        Console.WriteLine("-------------------------------------------------------------------");
+        Console.WriteLine("\tERROR : Name can not be empty");
+        return;
+    }
+
+    var businessPartner = new BusinessPartner { Name = name };
     if (businessPartnerRepository.GetAll().Where(x => x.Name == businessPartner.Name).Any())
     {
         return;
@@ -132,17 +138,14 @@ void EmployeeMenu()
         switch (input)
         {
             case "1":
-                Console.WriteLine("-------------------------------------------------------------------");
                 AddEmployeeMenu();
                 Console.WriteLine("-------------------------------------------------------------------");
                 break;
             case "2":
-                Console.WriteLine("-------------------------------------------------------------------");
-                RemoveMenu<Employee>();
+                RemoveMenu(employeeRepository);
                 Console.WriteLine("-------------------------------------------------------------------");
                 break;
             case "3":
-                Console.WriteLine("-------------------------------------------------------------------");
                 DisplayEmployeeList();
                 Console.WriteLine("-------------------------------------------------------------------");
                 break;
@@ -157,8 +160,16 @@ void EmployeeMenu()
     } while (true);
 }
 
-void RemoveMenu<T>()
+void RemoveMenu<T>(IRepository<T> repository) where T : class, IEntity
 {
+
+    if (!repository.GetAll().Any())
+    {
+        Console.WriteLine("-------------------------------------------------------------------");
+        Console.WriteLine("\tINFO : File not load or File is empty");
+        return;
+    }
+
     Console.WriteLine($"Removing {typeof(T).Name}:");
     Console.WriteLine($"\t\tChoose Id of {typeof(T).Name}");
 
@@ -173,7 +184,26 @@ void RemoveMenu<T>()
 
     Console.Write("\t\tYour choise: ");
     var input = Console.ReadLine()!.Trim();
-    var id = int.TryParse(input, out int value) ? value : -1;
+    int id = -1;
+
+    if (string.IsNullOrEmpty(input))
+    {
+        Console.WriteLine("-------------------------------------------------------------------");
+        Console.WriteLine("\tERROR : Id can not be empty");
+        return;
+    }
+    else if (!int.TryParse(input, out id))
+    {
+        Console.WriteLine("-------------------------------------------------------------------");
+        Console.WriteLine("\tERROR : Id must be a number");
+        return;
+    }
+    else if (!repository.GetAll().Where(x => x.Id == id).Any())
+    {
+        Console.WriteLine("-------------------------------------------------------------------");
+        Console.WriteLine("\tERROR : Id not exists on list");
+        return;
+    }
 
     if (typeof(T).Name.Equals("Employee"))
     {
@@ -198,6 +228,14 @@ void DisplayBusinesPartnerList()
     var fileCreator = new FileCreator<BusinessPartner>();
     LoadBusinessPartnerListFromFile(businessPartnerRepository, fileCreator);
 
+    if (!businessPartnerRepository.GetAll().Any())
+    {
+        Console.WriteLine("\tINFO : File is empty");
+        return;
+    }
+
+    Console.WriteLine("-------------------------------------------------------------------");
+    Console.WriteLine("Business partner list in file");
     foreach (var businessPartner in businessPartnerRepository.GetAll())
     {
         Console.WriteLine($"\t{businessPartner}");
@@ -209,6 +247,14 @@ void DisplayEmployeeList()
     var fileCreator = new FileCreator<Employee>();
     LoadEmployeeListFromFile(employeeRepository, fileCreator);
 
+    if (!employeeRepository.GetAll().Any())
+    {
+        Console.WriteLine("\tINFO : File is empty");
+        return;
+    }
+
+    Console.WriteLine("-------------------------------------------------------------------");
+    Console.WriteLine("Employee list in file");
     foreach (var employee in employeeRepository.GetAll())
     {
         Console.WriteLine($"\t{employee}");
@@ -220,11 +266,25 @@ void AddEmployeeMenu()
     var fileCreator = new FileCreator<Employee>();
     LoadEmployeeListFromFile(employeeRepository, fileCreator);
 
+    Console.WriteLine("-------------------------------------------------------------------");
     Console.WriteLine("\tAdding new employee: ");
     Console.Write("\t\tEnter first name: ");
     var firstName = Console.ReadLine()!.Trim();
     Console.Write("\t\tEnter last name: ");
     var lastName = Console.ReadLine()!.Trim();
+
+    if (string.IsNullOrEmpty(firstName))
+    {
+        Console.WriteLine("-------------------------------------------------------------------");
+        Console.WriteLine("\tERROR : First name can not be empty");
+        return;
+    }
+    else if (string.IsNullOrEmpty(lastName))
+    {
+        Console.WriteLine("-------------------------------------------------------------------");
+        Console.WriteLine("\tERROR : Last name can not be empty");
+        return;
+    }
 
     var employee = new Employee { FirstName = firstName, LastName = lastName };
     if (employeeRepository.GetAll().Where(x => x.FirstName == employee.FirstName && x.LastName == employee.LastName).Any())
