@@ -1,6 +1,4 @@
-﻿using LastMotoApp.Components;
-
-namespace LastMotoApp;
+﻿namespace LastMotoApp;
 
 public class App : IApp
 {

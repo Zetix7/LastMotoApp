@@ -1,4 +1,4 @@
-﻿namespace LastMotoApp.Entities;
+﻿namespace LastMotoApp.Data.Entities;
 
 public class Employee : EntityBase
 {

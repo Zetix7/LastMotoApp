@@ -1,5 +1,4 @@
-﻿using LastMotoApp.Entities;
-using LastMotoApp.Repositories;
+﻿using LastMotoApp.Data.Entities;
 
 namespace LastMotoApp.Components.Menu;
 

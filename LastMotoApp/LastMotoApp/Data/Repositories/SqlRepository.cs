@@ -1,8 +1,8 @@
 ﻿using LastMotoApp.Data;
-using LastMotoApp.Entities;
+using LastMotoApp.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace LastMotoApp.Repositories;
+namespace LastMotoApp.Data.Repositories;
 
 public class SqlRepository<T> : IRepository<T> where T : class, IEntity
 {

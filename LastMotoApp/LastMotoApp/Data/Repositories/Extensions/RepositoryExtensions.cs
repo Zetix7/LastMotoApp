@@ -1,6 +1,7 @@
-﻿using LastMotoApp.Entities;
+﻿using LastMotoApp.Data.Entities;
+using LastMotoApp.Data.Repositories;
 
-namespace LastMotoApp.Repositories.Extensions;
+namespace LastMotoApp.Data.Repositories.Extensions;
 
 public static class RepositoryExtensions
 {

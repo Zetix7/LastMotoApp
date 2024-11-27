@@ -1,6 +1,6 @@
-﻿using LastMotoApp.Entities;
+﻿using LastMotoApp.Data.Entities;
 
-namespace LastMotoApp.Repositories;
+namespace LastMotoApp.Data.Repositories;
 
 public class ListRepository<T> : IRepository<T> where T : class, IEntity
 {

@@ -1,6 +1,7 @@
-﻿using System.Text.Json;
+﻿using LastMotoApp.Data.Entities;
+using System.Text.Json;
 
-namespace LastMotoApp.Entities.Extensions;
+namespace LastMotoApp.Data.Entities.Extensions;
 
 public static class EntityExtensions
 {

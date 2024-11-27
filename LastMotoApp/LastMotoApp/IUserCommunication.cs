@@ -1,4 +1,4 @@
-﻿namespace LastMotoApp.Components;
+﻿namespace LastMotoApp;
 
 public interface IUserCommunication
 {

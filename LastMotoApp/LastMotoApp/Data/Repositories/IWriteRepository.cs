@@ -1,6 +1,6 @@
-﻿using LastMotoApp.Entities;
+﻿using LastMotoApp.Data.Entities;
 
-namespace LastMotoApp.Repositories;
+namespace LastMotoApp.Data.Repositories;
 
 public interface IWriteRepository<in T> where T : class, IEntity
 {

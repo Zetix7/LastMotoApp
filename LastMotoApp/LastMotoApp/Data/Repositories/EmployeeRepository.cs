@@ -1,6 +1,6 @@
-﻿using LastMotoApp.Entities;
+﻿using LastMotoApp.Data.Entities;
 
-namespace LastMotoApp.Repositories;
+namespace LastMotoApp.Data.Repositories;
 
 public class EmployeeRepository : EntityBase, IRepository<Employee>
 {
@@ -13,7 +13,7 @@ public class EmployeeRepository : EntityBase, IRepository<Employee>
 
     public event EventHandler<Employee>? ItemAdded;
     public event EventHandler<Employee>? ItemRemoved;
-    
+
     public IEnumerable<Employee> GetAll()
     {
         return _employees;

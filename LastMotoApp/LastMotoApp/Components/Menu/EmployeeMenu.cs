@@ -1,7 +1,6 @@
 ﻿using LastMotoApp.Components.DataProviders;
-using LastMotoApp.Entities;
-using LastMotoApp.Repositories;
-using LastMotoApp.Repositories.Extensions;
+using LastMotoApp.Data.Entities;
+using LastMotoApp.Data.Repositories;
 
 namespace LastMotoApp.Components.Menu;
 
@@ -32,7 +31,7 @@ public class EmployeeMenu : Menu<Employee>, IEmployeeMenu
             Console.WriteLine("\t1 - Add employee");
             Console.WriteLine("\t2 - Remove employee");
             Console.WriteLine("\t3 - Display employee list");
-            Console.WriteLine("\t3 - Add sample employees to file");
+            Console.WriteLine("\t4 - Add sample employees to file");
             Console.WriteLine("\t0 - Return");
             Console.Write("\t\tYour choise: ");
 

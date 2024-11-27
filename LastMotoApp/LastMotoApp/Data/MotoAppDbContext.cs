@@ -1,4 +1,4 @@
-﻿using LastMotoApp.Entities;
+﻿using LastMotoApp.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LastMotoApp.Data;

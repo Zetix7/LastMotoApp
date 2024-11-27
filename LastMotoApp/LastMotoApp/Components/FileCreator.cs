@@ -1,5 +1,5 @@
-﻿using LastMotoApp.Entities;
-using LastMotoApp.Repositories;
+﻿using LastMotoApp.Data.Entities;
+using LastMotoApp.Data.Repositories;
 using System.Text.Json;
 
 namespace LastMotoApp.Components;

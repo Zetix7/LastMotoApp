@@ -1,10 +1,11 @@
 ﻿using LastMotoApp;
 using LastMotoApp.Components;
+using LastMotoApp.Components.CsvReader;
 using LastMotoApp.Components.DataProviders;
 using LastMotoApp.Components.Menu;
 using LastMotoApp.Data;
-using LastMotoApp.Entities;
-using LastMotoApp.Repositories;
+using LastMotoApp.Data.Entities;
+using LastMotoApp.Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 var services = new ServiceCollection();
@@ -17,11 +18,10 @@ services.AddSingleton<IBusinessPartnerMenu, BusinessPartnerMenu>();
 services.AddSingleton<IRepository<Employee>, SqlRepository<Employee>>();
 services.AddSingleton<IRepository<BusinessPartner>, SqlRepository<BusinessPartner>>();
 services.AddDbContext<MotoAppDbContext>();
-services.AddSingleton<IRepository<Car>, SqlRepository<Car>>();
-services.AddSingleton<ICarsProvider, CarsProvider>();
 services.AddSingleton<IFileCreator<Employee>, FileCreator<Employee>>();
 services.AddSingleton<IFileCreator<BusinessPartner>, FileCreator<BusinessPartner>>();
 services.AddSingleton<IEmployeeProvider, EmployeeProvider>();
+services.AddSingleton<ICsvReader, CsvReader>();
 
 var serviceProvider = services.BuildServiceProvider();
 var app = serviceProvider.GetService<IApp>()!;

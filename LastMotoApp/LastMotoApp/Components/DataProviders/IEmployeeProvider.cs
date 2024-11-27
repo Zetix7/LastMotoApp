@@ -1,4 +1,4 @@
-﻿using LastMotoApp.Entities;
+﻿using LastMotoApp.Data.Entities;
 
 namespace LastMotoApp.Components.DataProviders;
 
