@@ -1,5 +1,4 @@
-﻿
-using LastMotoApp.Components.CsvReader.Models;
+﻿using LastMotoApp.Components.CsvReader.Models;
 
 namespace LastMotoApp.Components.CsvReader;
 

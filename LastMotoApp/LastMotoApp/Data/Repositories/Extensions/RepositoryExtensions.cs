@@ -1,5 +1,4 @@
 ﻿using LastMotoApp.Data.Entities;
-using LastMotoApp.Data.Repositories;
 
 namespace LastMotoApp.Data.Repositories.Extensions;
 

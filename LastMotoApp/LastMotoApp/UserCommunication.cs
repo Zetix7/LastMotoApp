@@ -1,22 +1,25 @@
 ﻿using LastMotoApp.Components.CsvReader;
-using LastMotoApp.Components.CsvReader.Models;
 using LastMotoApp.Components.Menu;
+using LastMotoApp.Components.XmlReader;
 
 namespace LastMotoApp;
 
 public class UserCommunication : IUserCommunication
 {
     private readonly ICsvReader _csvReader;
+    private readonly IXmlReader _xmlReader;
     private readonly IEmployeeMenu _employeeMenu;
     private readonly IBusinessPartnerMenu _businessPartnerMenu;
 
     public UserCommunication(IEmployeeMenu employeeMenu,
         IBusinessPartnerMenu businessPartnerMenu,
-        ICsvReader csvReader)
+        ICsvReader csvReader,
+        IXmlReader xmlReader)
     {
         _employeeMenu = employeeMenu;
         _businessPartnerMenu = businessPartnerMenu;
         _csvReader = csvReader;
+        _xmlReader = xmlReader;
     }
 
     public void Run()
@@ -28,6 +31,11 @@ public class UserCommunication : IUserCommunication
             Console.WriteLine("\t2 - Business partner");
             Console.WriteLine("\t3 - Display Cars from file");
             Console.WriteLine("\t4 - Display Manufacturers from file");
+            Console.WriteLine("\t5 - Create cars.xml file");
+            Console.WriteLine("\t6 - Create manufacturers.xml file");
+            Console.WriteLine("\t7 - Create manufacturers.xml file");
+            Console.WriteLine("\t8 - Create manufacturers.xml file");
+            Console.WriteLine("\t9 - Create specificManufacturersCars.xml file");
             Console.WriteLine("\t0 - Exit");
             Console.Write("\t\tYour choise: ");
 
@@ -54,15 +62,79 @@ public class UserCommunication : IUserCommunication
                     DisplayManufacturersFromFile();
                     Console.WriteLine("-------------------------------------------------------------------");
                     break;
+                case "5":
+                    Console.WriteLine("-------------------------------------------------------------------");
+                    CreateCarsXmlFile();
+                    Console.WriteLine("-------------------------------------------------------------------");
+                    break;
+                case "6":
+                    Console.WriteLine("-------------------------------------------------------------------");
+                    CreateManufacturersXmlFile();
+                    Console.WriteLine("-------------------------------------------------------------------");
+                    break;
+                case "7":
+                    Console.WriteLine("-------------------------------------------------------------------");
+                    ReadCarsXmlFile();
+                    Console.WriteLine("-------------------------------------------------------------------");
+                    break;
+                case "8":
+                    Console.WriteLine("-------------------------------------------------------------------");
+                    ReadManufacturersXmlFile();
+                    Console.WriteLine("-------------------------------------------------------------------");
+                    break;
+                case "9":
+                    Console.WriteLine("-------------------------------------------------------------------");
+                    CreateSpecificManufacturersCarsXmlFile();
+                    Console.WriteLine("-------------------------------------------------------------------");
+                    break;
                 case "0":
                     return;
                 default:
                     Console.WriteLine("-------------------------------------------------------------------");
-                    Console.WriteLine("INFO : Allow options 0 - 4");
+                    Console.WriteLine("INFO : Allow options 0 - 8");
                     Console.WriteLine("-------------------------------------------------------------------");
                     break;
             };
         } while (true);
+    }
+
+    private void CreateSpecificManufacturersCarsXmlFile()
+    {
+        _xmlReader.CreateSpecificManufacturersCarsXmlFile();
+    }
+
+    private void ReadCarsXmlFile()
+    {
+        var cars = _xmlReader.ReadCarsXmlFile("Resources/Files/cars.xml");
+
+        Console.WriteLine("\tINFO : Read cars.xml file");
+        Console.WriteLine("-------------------------------------------------------------------");
+        foreach (var car in cars)
+        {
+            Console.WriteLine(car);
+        }
+    }
+
+    private void ReadManufacturersXmlFile()
+    {
+        var manufacturers = _xmlReader.ReadManufacturersXmlFile("Resources/Files/manufacturers.xml");
+
+        Console.WriteLine("\tINFO : Read manufacturers.xml file");
+        Console.WriteLine("-------------------------------------------------------------------");
+        foreach (var manufacturer in manufacturers)
+        {
+            Console.WriteLine(manufacturer);
+        }
+    }
+
+    private void CreateCarsXmlFile()
+    {
+        _xmlReader.CreateCarsXmlFile("Resources/Files/fuel.csv");
+    }
+
+    private void CreateManufacturersXmlFile()
+    {
+        _xmlReader.CreateManufacturersXmlFile("Resources/Files/manufacturers.csv");
     }
 
     private void DisplayCarsFromFile()

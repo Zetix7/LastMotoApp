@@ -3,6 +3,7 @@ using LastMotoApp.Components;
 using LastMotoApp.Components.CsvReader;
 using LastMotoApp.Components.DataProviders;
 using LastMotoApp.Components.Menu;
+using LastMotoApp.Components.XmlReader;
 using LastMotoApp.Data;
 using LastMotoApp.Data.Entities;
 using LastMotoApp.Data.Repositories;
@@ -22,6 +23,7 @@ services.AddSingleton<IFileCreator<Employee>, FileCreator<Employee>>();
 services.AddSingleton<IFileCreator<BusinessPartner>, FileCreator<BusinessPartner>>();
 services.AddSingleton<IEmployeeProvider, EmployeeProvider>();
 services.AddSingleton<ICsvReader, CsvReader>();
+services.AddSingleton<IXmlReader, XmlReader>();
 
 var serviceProvider = services.BuildServiceProvider();
 var app = serviceProvider.GetService<IApp>()!;
