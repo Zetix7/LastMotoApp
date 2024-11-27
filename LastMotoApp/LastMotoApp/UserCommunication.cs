@@ -1,8 +1,6 @@
 ﻿using LastMotoApp.Components.CsvReader;
-using LastMotoApp.Components.DataProviders;
+using LastMotoApp.Components.CsvReader.Models;
 using LastMotoApp.Components.Menu;
-using LastMotoApp.Data.Entities;
-using LastMotoApp.Data.Repositories;
 
 namespace LastMotoApp;
 
@@ -28,9 +26,8 @@ public class UserCommunication : IUserCommunication
             Console.WriteLine("Choose one of allow resources?");
             Console.WriteLine("\t1 - Employee");
             Console.WriteLine("\t2 - Business partner");
-            Console.WriteLine("\t3 - Car");
-            Console.WriteLine("\t4 - Display Cars from file");
-            Console.WriteLine("\t5 - Display Manufacturers from file");
+            Console.WriteLine("\t3 - Display Cars from file");
+            Console.WriteLine("\t4 - Display Manufacturers from file");
             Console.WriteLine("\t0 - Exit");
             Console.Write("\t\tYour choise: ");
 
@@ -68,21 +65,68 @@ public class UserCommunication : IUserCommunication
         } while (true);
     }
 
-    private void DisplayManufacturersFromFile()
-    {
-        var manufacturers = _csvReader.ProcessManufacturers("Resources/Files/manufacturers.csv");
-        foreach (var manufacturer in manufacturers)
-        {
-            Console.WriteLine(manufacturer);
-        }
-    }
-
     private void DisplayCarsFromFile()
     {
         var cars = _csvReader.ProcessCars("Resources/Files/fuel.csv");
-        foreach (var car in cars)
+        var manufacturers = _csvReader.ProcessManufacturers("Resources/Files/manufacturers.csv");
+
+        var groups = cars.GroupBy(x => x.Manufacturer).Select(g => new
         {
-            Console.WriteLine(car);
+            Name = g.Key,
+            Max = g.Max(x => x.Combined),
+            Min = g.Min(x => x.Combined),
+            Average = g.Average(x => x.Combined),
+        });
+
+        Console.WriteLine("----------------------GROUP-BY-------------------------------------");
+        foreach (var car in groups)
+        {
+            Console.WriteLine($"Name: {car.Name}");
+            Console.WriteLine($"\tMax: {car.Max}");
+            Console.WriteLine($"\tMin: {car.Min}");
+            Console.WriteLine($"\tAverage: {car.Average}");
+        }
+
+        var join = cars.Join(manufacturers,
+            c => new { c.Manufacturer, c.Year },
+            m => new { Manufacturer = m.Name, m.Year },
+            (car, manufacturer) => new
+            {
+                manufacturer.Country,
+                car.Name,
+                car.Combined
+            }).OrderBy(x => x.Country).ThenBy(x => x.Name);
+
+        Console.WriteLine("----------------------JOIN-----------------------------------------");
+        foreach (var car in join)
+        {
+            Console.WriteLine($"Country: {car.Country}");
+            Console.WriteLine($"\tName: {car.Name}");
+            Console.WriteLine($"\tCombined: {car.Combined}");
+        }
+    }
+
+    private void DisplayManufacturersFromFile()
+    {
+        var manufacturers = _csvReader.ProcessManufacturers("Resources/Files/manufacturers.csv");
+        var cars = _csvReader.ProcessCars("Resources/Files/fuel.csv");
+
+        var groupjoin = manufacturers.GroupJoin(cars,
+            m => new { Manufacturer = m.Name, m.Year },
+            c => new { c.Manufacturer, c.Year },
+            (manufacturers, group) => new
+            {
+                Manufacturer = manufacturers,
+                Cars = group
+            });
+
+        Console.WriteLine("----------------------GROUP-JOIN-----------------------------------");
+        foreach (var group in groupjoin)
+        {
+            Console.WriteLine($"Manufacturer: {group.Manufacturer}");
+            Console.WriteLine($"\tCars: {group.Cars.Count()}");
+            Console.WriteLine($"\tMin: {group.Cars.Min(x => x.Combined)}");
+            Console.WriteLine($"\tMax: {group.Cars.Max(x => x.Combined)}");
         }
     }
 }
