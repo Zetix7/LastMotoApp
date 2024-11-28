@@ -10,14 +10,17 @@ public class UserCommunication : IUserCommunication
     private readonly IXmlReader _xmlReader;
     private readonly IEmployeeMenu _employeeMenu;
     private readonly IBusinessPartnerMenu _businessPartnerMenu;
+    private readonly ICarMenu _carMenu;
 
     public UserCommunication(IEmployeeMenu employeeMenu,
         IBusinessPartnerMenu businessPartnerMenu,
+        ICarMenu carMenu,
         ICsvReader csvReader,
         IXmlReader xmlReader)
     {
         _employeeMenu = employeeMenu;
         _businessPartnerMenu = businessPartnerMenu;
+        _carMenu = carMenu;
         _csvReader = csvReader;
         _xmlReader = xmlReader;
     }
@@ -29,7 +32,7 @@ public class UserCommunication : IUserCommunication
             Console.WriteLine("Choose one of allow resources?");
             Console.WriteLine("\t1 - Employee");
             Console.WriteLine("\t2 - Business partner");
-            Console.WriteLine("\t3 - Display Cars from file");
+            Console.WriteLine("\t3 - Car");
             Console.WriteLine("\t4 - Display Manufacturers from file");
             Console.WriteLine("\t5 - Create cars.xml file");
             Console.WriteLine("\t6 - Create manufacturers.xml file");
@@ -54,7 +57,7 @@ public class UserCommunication : IUserCommunication
                     break;
                 case "3":
                     Console.WriteLine("-------------------------------------------------------------------");
-                    DisplayCarsFromFile();
+                    _carMenu.RunCarMenu();
                     Console.WriteLine("-------------------------------------------------------------------");
                     break;
                 case "4":
@@ -129,12 +132,12 @@ public class UserCommunication : IUserCommunication
 
     private void CreateCarsXmlFile()
     {
-        _xmlReader.CreateCarsXmlFile("Resources/Files/fuel.csv");
+        _xmlReader.CreateCarsXmlFileFromCsvFile("Resources/Files/fuel.csv");
     }
 
     private void CreateManufacturersXmlFile()
     {
-        _xmlReader.CreateManufacturersXmlFile("Resources/Files/manufacturers.csv");
+        _xmlReader.CreateManufacturersXmlFileFromCsvFile("Resources/Files/manufacturers.csv");
     }
 
     private void DisplayCarsFromFile()

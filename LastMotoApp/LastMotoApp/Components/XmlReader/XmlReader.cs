@@ -1,5 +1,6 @@
 ﻿using LastMotoApp.Components.CsvReader;
 using LastMotoApp.Components.CsvReader.Models;
+using LastMotoApp.Data.Repositories;
 using System.Globalization;
 using System.Xml.Linq;
 
@@ -8,13 +9,17 @@ namespace LastMotoApp.Components.XmlReader;
 public class XmlReader : IXmlReader
 {
     private readonly ICsvReader _csvReader;
+    private readonly IRepository<Data.Entities.Car> _carRepository;
+    private readonly IRepository<Data.Entities.Manufacturer> _manufacturerRepository;
 
-    public XmlReader(ICsvReader csvReader)
+    public XmlReader(ICsvReader csvReader, IRepository<Data.Entities.Car> carRepository, IRepository<Data.Entities.Manufacturer> manufacturerRepository)
     {
         _csvReader = csvReader;
+        _carRepository = carRepository;
+        _manufacturerRepository = manufacturerRepository;
     }
 
-    public void CreateCarsXmlFile(string fileName)
+    public void CreateCarsXmlFileFromCsvFile(string fileName)
     {
         var cars = _csvReader.ProcessCars(fileName);
 
@@ -37,7 +42,7 @@ public class XmlReader : IXmlReader
         Console.WriteLine("\tINFO : Created cars.xml file");
     }
 
-    public void CreateManufacturersXmlFile(string fileName)
+    public void CreateManufacturersXmlFileFromCsvFile(string fileName)
     {
         var manufacturers = _csvReader.ProcessManufacturers(fileName);
 
@@ -117,16 +122,56 @@ public class XmlReader : IXmlReader
                 new XAttribute("Name", x.Manufacturer.Name!),
                 new XAttribute("Country", x.Manufacturer.Country!),
                 new XElement("Cars", x.Cars.Select(c =>
-                    new XElement("Car",  
+                    new XElement("Car",
                         new XAttribute("Model", c.Name!),
                         new XAttribute("Combined", c.Combined))),
                     new XAttribute("Country", x.Manufacturer.Country!),
-                    new XAttribute("CombinedSum", x.Cars.Sum(s=>s.Combined))
+                    new XAttribute("CombinedSum", x.Cars.Sum(s => s.Combined))
                     ))));
 
         var document = new XDocument(xml);
         document.Save("Resources/Files/specificManufacturersCars.xml");
 
         Console.WriteLine("\tINFO : Created specificManufacturersCars.xml file");
+    }
+
+    public void CreateCarsXmlFileFromDatabase()
+    {
+        var cars = _carRepository.GetAll().ToList();
+
+        var xmlCars = new XElement("Cars", cars.Select(x =>
+            new XElement("Car",
+                new XAttribute("Year", x.Year),
+                new XAttribute("Manufacturer", x.Manufacturer!),
+                new XAttribute("Name", x.Name!),
+                new XAttribute("Engine", x.Engine),
+                new XAttribute("Cylinders", x.Cylinders),
+                new XAttribute("City", x.City),
+                new XAttribute("Highway", x.Highway),
+                new XAttribute("Combined", x.Combined)
+                )));
+
+        var xml = new XDocument();
+        xml.Add(xmlCars);
+        xml.Save(@"Resources\Files\cars.xml");
+
+        Console.WriteLine("\tINFO : Created cars.xml file");
+    }
+
+    public void CreateManufacturersXmlFileFromDatabase()
+    {
+        var manufacturers = _manufacturerRepository.GetAll().ToList();
+
+        var xmlManufacturers = new XElement("Manufacturers", manufacturers.Select(x =>
+            new XElement("Manufacturer",
+                new XAttribute("Name", x.Name!),
+                new XAttribute("Country", x.Country!),
+                new XAttribute("Year", x.Year)
+                )));
+
+        var xml = new XDocument(xmlManufacturers);
+        xml.Save(@"Resources\Files\manufacturers.xml");
+
+        Console.WriteLine("\tINFO : Created manufacturers.xml file");
     }
 }

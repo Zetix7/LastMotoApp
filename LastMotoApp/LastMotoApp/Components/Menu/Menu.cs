@@ -22,7 +22,7 @@ public class Menu<T> : IMenu<T> where T : class, IEntity
         if (!_repository.GetAll().Any())
         {
             Console.WriteLine("-------------------------------------------------------------------");
-            Console.WriteLine("\tINFO : File not load or File is empty");
+            Console.WriteLine("\tINFO : Database not load or is empty");
             return;
         }
 
@@ -65,12 +65,12 @@ public class Menu<T> : IMenu<T> where T : class, IEntity
     {
         if (!_repository.GetAll().Any())
         {
-            Console.WriteLine("\tINFO : File is empty");
+            Console.WriteLine("\tINFO : Database is empty");
             return;
         }
 
         Console.WriteLine("-------------------------------------------------------------------");
-        Console.WriteLine($"{typeof(T).Name} list in file");
+        Console.WriteLine($"{typeof(T).Name} list in database");
         foreach (var item in _repository.GetAll().OrderBy(x => x.Id).ToList())
         {
             Console.WriteLine($"\t{item}");

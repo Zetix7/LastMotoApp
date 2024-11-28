@@ -4,9 +4,11 @@ namespace LastMotoApp.Components.XmlReader;
 
 public interface IXmlReader
 {
-    void CreateCarsXmlFile(string fileName);
-    void CreateManufacturersXmlFile(string fileName);
+    void CreateCarsXmlFileFromCsvFile(string fileName);
+    void CreateManufacturersXmlFileFromCsvFile(string fileName);
     List<Car> ReadCarsXmlFile(string fileName);
     List<Manufacturer> ReadManufacturersXmlFile(string fileName);
     void CreateSpecificManufacturersCarsXmlFile();
+    void CreateCarsXmlFileFromDatabase();
+    void CreateManufacturersXmlFileFromDatabase();
 }
