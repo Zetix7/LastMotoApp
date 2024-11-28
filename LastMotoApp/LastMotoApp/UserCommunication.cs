@@ -33,8 +33,8 @@ public class UserCommunication : IUserCommunication
             Console.WriteLine("\t4 - Display Manufacturers from file");
             Console.WriteLine("\t5 - Create cars.xml file");
             Console.WriteLine("\t6 - Create manufacturers.xml file");
-            Console.WriteLine("\t7 - Create manufacturers.xml file");
-            Console.WriteLine("\t8 - Create manufacturers.xml file");
+            Console.WriteLine("\t7 - Read cars.xml file");
+            Console.WriteLine("\t8 - Read manufacturers.xml file");
             Console.WriteLine("\t9 - Create specificManufacturersCars.xml file");
             Console.WriteLine("\t0 - Exit");
             Console.Write("\t\tYour choise: ");
@@ -91,7 +91,7 @@ public class UserCommunication : IUserCommunication
                     return;
                 default:
                     Console.WriteLine("-------------------------------------------------------------------");
-                    Console.WriteLine("INFO : Allow options 0 - 8");
+                    Console.WriteLine("INFO : Allow options 0 - 9");
                     Console.WriteLine("-------------------------------------------------------------------");
                     break;
             };

@@ -28,3 +28,5 @@ services.AddSingleton<IXmlReader, XmlReader>();
 var serviceProvider = services.BuildServiceProvider();
 var app = serviceProvider.GetService<IApp>()!;
 app.Run();
+
+// Data Source=.\SQLEXPRESS;Initial Catalog=TestStorage;Integrated Security=True;Encrypt=True;Trust Server Certificate=True

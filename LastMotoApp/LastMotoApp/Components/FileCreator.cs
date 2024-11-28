@@ -11,8 +11,8 @@ public class FileCreator<T> : IFileCreator<T> where T : class, IEntity
 
     public FileCreator()
     {
-        _auditFile = $"{typeof(T).Name.ToLower()}s_{_auditFile}";
-        _filePath = $"{typeof(T).Name.ToLower()}s{_filePath}";
+        _auditFile = $"Resources/Files/{typeof(T).Name.ToLower()}s_{_auditFile}";
+        _filePath = $"Resources/Files/{typeof(T).Name.ToLower()}s{_filePath}";
     }
 
     public void SaveToFile(IRepository<T> entities, T entity, string action)

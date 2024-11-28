@@ -5,12 +5,18 @@ namespace LastMotoApp.Data;
 
 public class MotoAppDbContext : DbContext
 {
-    public DbSet<Employee> Employees => Set<Employee>();
-    public DbSet<BusinessPartner> BusinessPartners => Set<BusinessPartner>();
+    public MotoAppDbContext(DbContextOptions<MotoAppDbContext> options) : base(options)
+    {
+    }
+
+    public DbSet<Car>? Cars { get; set; }
+    public DbSet<Manufacturer>? Manufacturers { get; set; }
+    public DbSet<Employee>? Employees { get; set; }
+    public DbSet<BusinessPartner>? BusinessPartners { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseInMemoryDatabase("MotoAppStorrage");
+        optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=MotoAppStorage;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
     }
 }
