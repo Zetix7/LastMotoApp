@@ -26,12 +26,13 @@ public class Menu<T> : IMenu<T> where T : class, IEntity
             return;
         }
 
-        Console.WriteLine($"Removing {typeof(T).Name}:");
-        Console.WriteLine($"\t\tChoose Id of {typeof(T).Name}");
+        Console.WriteLine("-------------------------------------------------------------------");
+        Console.WriteLine($"\tINFO : Removing {typeof(T).Name}...");
 
         DisplayItemList();
 
-        Console.Write("\t\tYour choise: ");
+        Console.Write($"\t\tChoose # of {typeof(T).Name}: ");
+        //Console.Write("\t\tYour choise: ");
         var input = Console.ReadLine()!.Trim();
         int id = -1;
 
@@ -73,7 +74,7 @@ public class Menu<T> : IMenu<T> where T : class, IEntity
         Console.WriteLine($"{typeof(T).Name} list in database");
         foreach (var item in _repository.GetAll().OrderBy(x => x.Id).ToList())
         {
-            Console.WriteLine($"\t{item}");
+            Console.WriteLine($"\t#{item.Id} - {item}");
         }
     }
 

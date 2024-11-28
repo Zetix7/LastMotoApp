@@ -4,5 +4,5 @@ public class BusinessPartner : EntityBase
 {
     public string? Name { get; set; }
 
-    public override string ToString() => $"Id: {Id}, Name: {Name}";
+    public override string ToString() => $"Name: {Name}";
 }

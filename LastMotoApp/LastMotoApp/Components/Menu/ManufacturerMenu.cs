@@ -5,37 +5,37 @@ using LastMotoApp.Data.Repositories;
 
 namespace LastMotoApp.Components.Menu;
 
-public class CarMenu : Menu<Car>, ICarMenu
+public class ManufacturerMenu : Menu<Manufacturer>,IManufacturerMenu
 {
-    private readonly IRepository<Car> _carRepository;
-    private readonly IMenu<Car> _menu;
+    private readonly IRepository<Manufacturer> _manufacturerRepository;
+    private readonly IMenu<Manufacturer> _menu;
     private readonly ICsvReader _csvReader;
     private readonly IXmlReader _xmlReader;
-    private readonly IFileCreator<Car> _fileCreator;
+    private readonly IFileCreator<Manufacturer> _fileCreator;
 
-    public CarMenu(IRepository<Car> carRepository,
-        IMenu<Car> menu,
+    public ManufacturerMenu(IRepository<Manufacturer> manufacturerRepository,
+        IMenu<Manufacturer> menu,
         ICsvReader csvReader,
         IXmlReader xmlReader,
-        IFileCreator<Car> fileCreator
-        ) : base(carRepository)
+        IFileCreator<Manufacturer> fileCreator
+        ) : base(manufacturerRepository)
     {
-        _carRepository = carRepository;
+        _manufacturerRepository = manufacturerRepository;
         _menu = menu;
         _csvReader = csvReader;
         _xmlReader = xmlReader;
         _fileCreator = fileCreator;
     }
 
-    public void RunCarMenu()
+    public void RunManufacturerMenu()
     {
         do
         {
             Console.WriteLine("What do you want do?");
-            Console.WriteLine("\t1 - Add cars to database from cars.csv file");
-            Console.WriteLine("\t2 - Create cars.xml file from database");
-            Console.WriteLine("\t3 - Remove car from database");
-            Console.WriteLine("\t4 - Display car list from database");
+            Console.WriteLine("\t1 - Add manufacturers to database from cars.csv file");
+            Console.WriteLine("\t2 - Create manufacturers.xml file from database");
+            Console.WriteLine("\t3 - Remove manufacturer from database");
+            Console.WriteLine("\t4 - Display manufacturer list from database");
             Console.WriteLine("\t0 - Return");
             Console.Write("\t\tYour choise: ");
 
@@ -43,11 +43,11 @@ public class CarMenu : Menu<Car>, ICarMenu
             switch (input)
             {
                 case "1":
-                    AddCarsFromCsvFile();
+                    AddManufacturersFromCsvFile();
                     Console.WriteLine("-------------------------------------------------------------------");
                     break;
                 case "2":
-                    CreateCarsXmlFile();
+                    CreateManufacturersXmlFile();
                     Console.WriteLine("-------------------------------------------------------------------");
                     break;
                 case "3":
@@ -69,45 +69,36 @@ public class CarMenu : Menu<Car>, ICarMenu
         } while (true);
     }
 
-    private void CreateCarsXmlFile()
+    private void AddManufacturersFromCsvFile()
     {
         Console.WriteLine("-------------------------------------------------------------------");
-        _xmlReader.CreateCarsXmlFileFromDatabase();
-    }
-
-    private void AddCarsFromCsvFile()
-    {
-        Console.WriteLine("-------------------------------------------------------------------");
-        var cars = _csvReader.ProcessCars("Resources/Files/fuel.csv");
+        var manufacturers = _csvReader.ProcessManufacturers("Resources/Files/manufacturers.csv");
         var counter = 0;
-        foreach (var car in cars)
+        foreach (var manufacturer in manufacturers)
         {
-            if (_carRepository.GetAll().Where(x => x.Name == car.Name
-                && x.City == car.City
-                && x.Highway == car.Highway
-                && x.Combined == car.Combined).Any())
+            if(_manufacturerRepository.GetAll().Where(x => x.Name == manufacturer.Name).Any())
             {
                 continue;
             }
 
-            var entityCar = new Car
+            var entityManufacturer = new Manufacturer
             {
-                Year = car.Year,
-                Manufacturer = car.Manufacturer,
-                Name = car.Name,
-                Engine = car.Engine,
-                Cylinders = car.Cylinders,
-                City = car.City,
-                Highway = car.Highway,
-                Combined = car.Combined
+                Name = manufacturer.Name,
+                Country = manufacturer.Country,
+                Year = manufacturer.Year
             };
 
-            _carRepository.Add(entityCar);
-            _carRepository.Save();
-
-            _fileCreator.SaveToFile(_carRepository, entityCar, "Added");
+            _manufacturerRepository.Add(entityManufacturer);
+            _manufacturerRepository.Save();
+            _fileCreator.SaveToFile(_manufacturerRepository, entityManufacturer, "Added");
             counter++;
         }
-        Console.WriteLine($"\tINFO : {counter} car(s) added to database");
+        Console.WriteLine($"\tINFO : {counter} manufacturer(s) added to database");
+    }
+
+    private void CreateManufacturersXmlFile()
+    {
+        Console.WriteLine("-------------------------------------------------------------------");
+        _xmlReader.CreateManufacturersXmlFileFromDatabase();
     }
 }

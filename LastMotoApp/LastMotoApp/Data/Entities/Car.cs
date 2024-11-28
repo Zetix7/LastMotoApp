@@ -13,6 +13,6 @@ public class Car : EntityBase
 
     public override string ToString()
     {
-        return $"{Id} - {Year}, {Manufacturer}, {Name}, {Engine}, {Cylinders}, {City}, {Highway}, {Combined}";
+        return $"{Year}, {Manufacturer}, {Name}, {Engine}, {Cylinders}, {City}, {Highway}, {Combined}";
     }
 }

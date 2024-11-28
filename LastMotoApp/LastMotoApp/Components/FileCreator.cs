@@ -17,15 +17,18 @@ public class FileCreator<T> : IFileCreator<T> where T : class, IEntity
 
     public void SaveToFile(IRepository<T> entities, T entity, string action)
     {
-        var list = new List<T>();
-        foreach (var item in entities.GetAll())
+        if (typeof(T).Name.Equals("Employee") || typeof(T).Name.Equals("BusinessPartner"))
         {
-            list.Add(item);
-        }
-        using (var writer = File.CreateText(_filePath))
-        {
-            var jsonItem = JsonSerializer.Serialize(list);
-            writer.WriteLine(jsonItem);
+            var list = new List<T>();
+            foreach (var item in entities.GetAll())
+            {
+                list.Add(item);
+            }
+            using (var writer = File.CreateText(_filePath))
+            {
+                var jsonItem = JsonSerializer.Serialize(list);
+                writer.WriteLine(jsonItem);
+            }
         }
 
         if (!File.Exists(_auditFile))
