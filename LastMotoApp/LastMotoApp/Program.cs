@@ -1,12 +1,12 @@
-﻿using LastMotoApp;
-using LastMotoApp.Components;
-using LastMotoApp.Components.CsvReader;
-using LastMotoApp.Components.DataProviders;
-using LastMotoApp.Components.Menu;
-using LastMotoApp.Components.XmlReader;
-using LastMotoApp.Data;
-using LastMotoApp.Data.Entities;
-using LastMotoApp.Data.Repositories;
+﻿using LastMotoApp.ApplicationServices.Components.CsvReader;
+using LastMotoApp.ApplicationServices.Components.FileCreator;
+using LastMotoApp.ApplicationServices.Components.XmlReader;
+using LastMotoApp.DataAccess.Data;
+using LastMotoApp.DataAccess.Data.Entities;
+using LastMotoApp.DataAccess.Data.Repositories;
+using LastMotoApp.DataAccess.DataProviders;
+using LastMotoApp.UI;
+using LastMotoApp.UI.Menu;
 using Microsoft.Extensions.DependencyInjection;
 
 var services = new ServiceCollection();
@@ -36,5 +36,3 @@ services.AddSingleton<IXmlReader, XmlReader>();
 var serviceProvider = services.BuildServiceProvider();
 var app = serviceProvider.GetService<IApp>()!;
 app.Run();
-
-// Data Source=.\SQLEXPRESS;Initial Catalog=TestStorage;Integrated Security=True;Encrypt=True;Trust Server Certificate=True
